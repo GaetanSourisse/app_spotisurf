@@ -20,15 +20,15 @@ export default function Home({navigation}){
                 <Text style={styles.subtitleapp}>Find your favorite surf spot</Text>
             </View>
             <SafeAreaView style={{backgroundColor:'#FFFA99'}} >
-                <FlatList
+                {/* <FlatList
                     //via une bdd en dur spot.js
                     keyExtractor={(item) => item.id}
                     data={spots}
                     renderItem={({item}) => <Item title={item.name} subtitle={item.location} picture={item.picture} onPress={() => navigation.navigate('Detail', { itemId: item.id })}/>}
-                />   
-            </SafeAreaView>      
+                />    */}
+                  
                     
-                    {/* Via un fichier json
+                    Via un fichier json
                     <View>
                         {data.records.map((item) => (
                             <View key={item.id}>
@@ -44,10 +44,10 @@ export default function Home({navigation}){
                                 }, []);
                                 };
                                 <Image source={{uri: item.Photos}} style={{width: 400, height: 400}}/>
-                            </View>
+                    </View>
                         ))}
-                    </ScrollView> */}
-                
+                    
+            </SafeAreaView>    
             
         </ScrollView>
     )
