@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, SafeAreaView, Image, ScrollView, TouchableOpacity} from 'react-native';
 import {API_TOKEN} from '@env';
 
@@ -13,17 +13,21 @@ export default function Home({navigation}){
   var Airtable = require('airtable');
   var base = new Airtable({apiKey: API_TOKEN}).base('appxT9ln6ixuCb3o1');
   
-  base('Surf Destinations').select({
-      view: 'Main View'
-  }).firstPage(function(err, records) {
-      if (err) { console.error(err); return; }
-      records.forEach(function(record) {
-          console.log(record.fields);
+  useEffect(() => {
+      base('Surf Destinations').select({
+        view: 'Main View'
+      }).firstPage(function(err, records) {
+        if (err) { 
+          console.error(err)
+        }else{
+          setData(records)
+        };
       });
-  });
+    },[])
+  
 
     return(
-        <ScrollView>
+        <View>
             <View style={styles.container}>
                 <StatusBar style="auto" />
                 <Text style={styles.titleapp}>Welcome to Spotisurf</Text>
@@ -32,12 +36,18 @@ export default function Home({navigation}){
                 <Text style={styles.subtitleapp}>Find your favorite surf spot</Text>
             </View>
             <SafeAreaView style={{backgroundColor:'#FFFA99'}} >
-                
-              
+                <FlatList
+                  data={data}
+                  //keyExtractor={({id}) => id}
+                  renderItem={({item}) => (
+                    <Item title={item.Address}/>
+                    
+                  )}
+                />
                     
             </SafeAreaView>    
             
-        </ScrollView>
+        </View>
     )
 }
 
