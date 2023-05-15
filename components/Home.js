@@ -2,14 +2,26 @@ import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { StyleSheet, Text, View, FlatList, SafeAreaView, Image, ScrollView, TouchableOpacity} from 'react-native';
-import {spots} from "../data/spots";
-import {data} from "../data/spots.json"
+import {API_TOKEN} from '@env';
+
+
 
 export default function Home({navigation}){
-    const data = require('../data/spots.json');
-    console.log(data.records[0].SurfBreak)
-    const [imageUrl, setImageUrl] = useState(null);
- 
+  const [data, setData] = useState([]);
+
+  // access data to airtbale
+  var Airtable = require('airtable');
+  var base = new Airtable({apiKey: API_TOKEN}).base('appxT9ln6ixuCb3o1');
+  
+  base('Surf Destinations').select({
+      view: 'Main View'
+  }).firstPage(function(err, records) {
+      if (err) { console.error(err); return; }
+      records.forEach(function(record) {
+          console.log(record.fields);
+      });
+  });
+
     return(
         <ScrollView>
             <View style={styles.container}>
@@ -20,32 +32,8 @@ export default function Home({navigation}){
                 <Text style={styles.subtitleapp}>Find your favorite surf spot</Text>
             </View>
             <SafeAreaView style={{backgroundColor:'#FFFA99'}} >
-                {/* <FlatList
-                    //via une bdd en dur spot.js
-                    keyExtractor={(item) => item.id}
-                    data={spots}
-                    renderItem={({item}) => <Item title={item.name} subtitle={item.location} picture={item.picture} onPress={() => navigation.navigate('Detail', { itemId: item.id })}/>}
-                />    */}
-                  
-                    
-                    Via un fichier json
-                    <View>
-                        {data.records.map((item) => (
-                            <View key={item.id}>
-                                <Text >{item.SurfBreak} ({item.Address})</Text>
-                                { useEffect(() => {
-                                    const imageUrl = item.Photos;
-                                    fetch(item.Photos)
-                                        .then(response => console.log(response.blob()))
-                                        .then(blob => {
-                                            const localUrl = URL.createObjectURL(blob);
-                                            setImageUrl(localUrl);})
-                                        .catch(error => console.error(error))}
-                                }, []);
-                                };
-                                <Image source={{uri: item.Photos}} style={{width: 400, height: 400}}/>
-                    </View>
-                        ))}
+                
+              
                     
             </SafeAreaView>    
             
