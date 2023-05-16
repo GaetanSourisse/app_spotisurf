@@ -14,14 +14,31 @@ export default function Home({navigation}){
   var base = new Airtable({apiKey: API_TOKEN}).base('appxT9ln6ixuCb3o1');
   
   useEffect(() => {
-    base('Surf Destinations').find('rec5aF9TjMjBicXCK', function(err, record) {
+    const arrRecords = [];
+    base('Surf Destinations').select({
+      fields: ["Destination", "Destination State/Country", "Photos"],
+      view: "Main View"
+    }).eachPage(function page(records, fetchNextPage) {
+      // This function (`page`) will get called for each page of records.
+  
+      records.forEach(function(record) {
+          arrRecords.push(record);
+          //console.log('Retrieved', record);
+      });
+  
+      // To fetch the next page of records, call `fetchNextPage`.
+      // If there are more records, `page` will get called again.
+      // If there are no more records, `done` will get called.
+      fetchNextPage();
+  
+  }, function done(err) {
       if (err) { 
         return console.error(err)
       }else{
-        setData(record);
-        console.log('Retrieved', record);
+        setData(arrRecords)
+        console.log(data)
       }
-    });
+  });
 }, []);
   
 
@@ -35,11 +52,15 @@ export default function Home({navigation}){
                 <Text style={styles.subtitleapp}>Find your favorite surf spot</Text>
             </View>
             <SafeAreaView style={{backgroundColor:'#FFFA99'}} >
-                {data._rawJson && (
-                  <View>
-                    <Item title={data._rawJson.fields.Address} subtitle={data._rawJson.fields["Difficulty Level"]} picture={data._rawJson.fields.Photos[0].url}/>
-                  </View>
+              
+                {data && (
+                  <FlatList
+                    data={data}
+                    keyExtractor={(item) => item.fields.id}
+                    renderItem={({item}) => <Item title={item.fields.Destination} subtitle={item.fields["Destination State/Country"]} picture={item.fields.Photos[0].url}/> }
+                  />
                 )}
+              
             </SafeAreaView>    
         </View>
     )
@@ -49,7 +70,7 @@ const Item = ({title, subtitle, picture, onPress}) => (
     <TouchableOpacity onPress={onPress}>
     <View style={styles.spotlist}>
      <Text style={styles.titlespot}>{title}</Text>
-     <Text style={styles.titlespot}>Niveau de difficulté: {subtitle}/5</Text>
+     <Text style={styles.titlespot}>{subtitle}</Text>
      <Image source={{uri:picture}} style={styles.picture} />
     </View>
     </TouchableOpacity>
