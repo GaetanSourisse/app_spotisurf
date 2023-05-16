@@ -9,14 +9,18 @@ import {API_TOKEN} from '@env';
 export default function Home({navigation}){
   const [data, setData] = useState([]);
 
-  // access data to airtbale
+  // access data to airtable
   var Airtable = require('airtable');
   var base = new Airtable({apiKey: API_TOKEN}).base('appxT9ln6ixuCb3o1');
   
   useEffect(() => {
     base('Surf Destinations').find('rec5aF9TjMjBicXCK', function(err, record) {
-      if (err) { console.error(err); return; }
-      console.log('Retrieved', record);
+      if (err) { 
+        return console.error(err)
+      }else{
+        setData(record);
+        console.log('Retrieved', record);
+      }
     });
 }, []);
   
@@ -31,17 +35,12 @@ export default function Home({navigation}){
                 <Text style={styles.subtitleapp}>Find your favorite surf spot</Text>
             </View>
             <SafeAreaView style={{backgroundColor:'#FFFA99'}} >
-                <FlatList
-                  data={data}
-                  //keyExtractor={({id}) => id}
-                  renderItem={({item}) => (
-                    <Item title={item.Address}/>
-                    
-                  )}
-                />
-                    
+                {data._rawJson && (
+                  <View>
+                    <Item title={data._rawJson.fields.Address} subtitle={data._rawJson.fields["Difficulty Level"]} picture={data._rawJson.fields.Photos[0].url}/>
+                  </View>
+                )}
             </SafeAreaView>    
-            
         </View>
     )
 }
@@ -49,8 +48,9 @@ export default function Home({navigation}){
 const Item = ({title, subtitle, picture, onPress}) => (
     <TouchableOpacity onPress={onPress}>
     <View style={styles.spotlist}>
-     <Text style={styles.titlespot}>{title}, {subtitle}</Text>
-     <Image source={picture} style={styles.picture} />
+     <Text style={styles.titlespot}>{title}</Text>
+     <Text style={styles.titlespot}>Niveau de difficulté: {subtitle}/5</Text>
+     <Image source={{uri:picture}} style={styles.picture} />
     </View>
     </TouchableOpacity>
   );
