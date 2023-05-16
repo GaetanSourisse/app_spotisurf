@@ -14,16 +14,11 @@ export default function Home({navigation}){
   var base = new Airtable({apiKey: API_TOKEN}).base('appxT9ln6ixuCb3o1');
   
   useEffect(() => {
-      base('Surf Destinations').select({
-        view: 'Main View'
-      }).firstPage(function(err, records) {
-        if (err) { 
-          console.error(err)
-        }else{
-          setData(records)
-        };
-      });
-    },[])
+    base('Surf Destinations').find('rec5aF9TjMjBicXCK', function(err, record) {
+      if (err) { console.error(err); return; }
+      console.log('Retrieved', record);
+    });
+}, []);
   
 
     return(
