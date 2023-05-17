@@ -1,45 +1,20 @@
 import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, SafeAreaView, Image, ScrollView, TouchableOpacity} from 'react-native';
-import {API_TOKEN} from '@env';
+import { StyleSheet, Text, View, FlatList, SafeAreaView, Image, TouchableOpacity} from 'react-native';
+import { FetchHomescreenData } from '../data/api';
 
 
 
 export default function Home({navigation}){
   const [data, setData] = useState([]);
 
-  // access data to airtable
-  var Airtable = require('airtable');
-  var base = new Airtable({apiKey: API_TOKEN}).base('appxT9ln6ixuCb3o1');
-  
   useEffect(() => {
-    const arrRecords = [];
-    base('Surf Destinations').select({
-      fields: ["Destination", "Destination State/Country", "Photos"],
-      view: "Main View"
-    }).eachPage(function page(records, fetchNextPage) {
-      // This function (`page`) will get called for each page of records.
-  
-      records.forEach(function(record) {
-          arrRecords.push(record);
-          //console.log('Retrieved', record);
-      });
-  
-      // To fetch the next page of records, call `fetchNextPage`.
-      // If there are more records, `page` will get called again.
-      // If there are no more records, `done` will get called.
-      fetchNextPage();
-  
-  }, function done(err) {
-      if (err) { 
-        return console.error(err)
-      }else{
-        setData(arrRecords)
-        console.log(data)
-      }
-  });
-}, []);
+    FetchHomescreenData()
+      .then((response) => {
+        setData(response)
+      })
+  }, []);
   
 
     return(
@@ -55,9 +30,10 @@ export default function Home({navigation}){
               
                 {data && (
                   <FlatList
-                    data={data}
-                    keyExtractor={(item) => item.fields.id}
-                    renderItem={({item}) => <Item title={item.fields.Destination} subtitle={item.fields["Destination State/Country"]} picture={item.fields.Photos[0].url}/> }
+                    style={{marginBottom:300}}
+                    data={data.records}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({item}) => <Item title={item.fields.Destination} subtitle={item.fields["Destination State/Country"]} picture={item.fields.Photos[0].url} onPress={() => navigation.navigate('Detail', { itemId: item.id })}/> }
                   />
                 )}
               
@@ -106,7 +82,7 @@ const styles = StyleSheet.create({
         backgroundColor:'#FFBF66',
         alignItems: 'center',
         paddingVertical: 20,
-        maxHeight: 700
+        
       
     },
     titlespot:{
@@ -119,7 +95,7 @@ const styles = StyleSheet.create({
     picture:{
       width:150,
       height:150,
-      borderRadius:75
+      borderRadius:75,
   
     }
       
