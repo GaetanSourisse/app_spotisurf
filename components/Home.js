@@ -33,7 +33,7 @@ export default function Home({navigation}){
                     style={{marginBottom:300}}
                     data={data.records}
                     keyExtractor={(item) => item.id}
-                    renderItem={({item}) => <Item title={item.fields.Destination} subtitle={item.fields["Destination State/Country"]} picture={item.fields.Photos[0].url} onPress={() => navigation.navigate('Detail', { itemId: item.id })}/> }
+                    renderItem={({item}) => <Item title={item.fields.Destination} subtitle={item.fields["Destination State/Country"]} picture={item.fields.Photos[0].url} toDetail={() => navigation.navigate('Detail', { itemId: item.id })}/> }
                   />
                 )}
               
@@ -42,8 +42,8 @@ export default function Home({navigation}){
     )
 }
 
-const Item = ({title, subtitle, picture, onPress}) => (
-    <TouchableOpacity onPress={onPress}>
+const Item = ({title, subtitle, picture, toDetail}) => (
+    <TouchableOpacity onPress={toDetail}>
     <View style={styles.spotlist}>
      <Text style={styles.titlespot}>{title}</Text>
      <Text style={styles.titlespot}>{subtitle}</Text>
