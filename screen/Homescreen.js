@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, SafeAreaView, Image, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, FlatList, SafeAreaView, Image, Pressable} from 'react-native';
 import { FetchHomescreenData } from '../data/api';
 
 
 
-export default function Home({navigation}){
+export default function Homescreen({navigation}){
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -14,6 +14,9 @@ export default function Home({navigation}){
       .then((response) => {
         setData(response)
       })
+      .catch((error) => {
+        console.error("An error occurred while fetching data: ", error);
+      });
   }, []);
   
 
@@ -21,10 +24,10 @@ export default function Home({navigation}){
         <View>
             <View style={styles.container}>
                 <StatusBar style="auto" />
-                <Text style={styles.titleapp}>Welcome to Spotisurf</Text>
+                <Text style={styles.titleapp}>Spotisurf</Text>
             </View>
             <View style={styles.favorite}>
-                <Text style={styles.subtitleapp}>Find your favorite surf spot</Text>
+                <Text style={styles.subtitleapp}>Explore the surfs spots</Text>
             </View>
             <SafeAreaView style={{backgroundColor:'#FFFA99'}} >
               
@@ -33,7 +36,7 @@ export default function Home({navigation}){
                     style={{marginBottom:300}}
                     data={data.records}
                     keyExtractor={(item) => item.id}
-                    renderItem={({item}) => <Item title={item.fields.Destination} subtitle={item.fields["Destination State/Country"]} picture={item.fields.Photos[0].url} toDetail={() => navigation.navigate('Detail', { itemId: item.id })}/> }
+                    renderItem={({item}) => <Item title={item.fields.Destination} subtitle={item.fields["Destination State/Country"]} picture={item.fields.Photos[0].url} onPress={() => navigation.navigate('Detail', { itemId: item.id })}/> }
                   />
                 )}
               
@@ -42,14 +45,14 @@ export default function Home({navigation}){
     )
 }
 
-const Item = ({title, subtitle, picture, toDetail}) => (
-    <TouchableOpacity onPress={toDetail}>
+const Item = ({title, subtitle, picture, onPress}) => (
+    <Pressable onPress={onPress}>
     <View style={styles.spotlist}>
      <Text style={styles.titlespot}>{title}</Text>
      <Text style={styles.titlespot}>{subtitle}</Text>
      <Image source={{uri:picture}} style={styles.picture} />
     </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 
 const styles = StyleSheet.create({

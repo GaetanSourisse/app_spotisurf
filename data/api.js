@@ -59,28 +59,28 @@ export async function FetchHomescreenData() {
   };
 
 
-// export async function FetchDetailscreenData(route){
-//   const apiKey = API_TOKEN;
-//   const { itemId } = route.params
+export async function FetchDetailscreenData(route){
+  const apiKey = API_TOKEN;
+  const { itemId } = route.params
 
-//   try {
-//       var myHeaders = new Headers();
-//       myHeaders.append("Content-Type", "application/json");
-//       myHeaders.append("Authorization", `Bearer ${apiKey}`);
+  try {
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", `Bearer ${apiKey}`);
 
 
-//       var requestOptions = {
-//       method: 'GET',
-//       headers: myHeaders
-//       };
-//     const response = await fetch(
-//       `https://api.airtable.com/v0/appxT9ln6ixuCb3o1/Surf%20Destinations/${itemId}`, requestOptions
-//     );
-//     const data = await response.json();
+      var requestOptions = {
+      method: 'GET',
+      headers: myHeaders
+      };
+    const response = await fetch(
+      `https://api.airtable.com/v0/appxT9ln6ixuCb3o1/Surf%20Destinations/${itemId}`, requestOptions
+    );
+    const data = await response.json();
    
-//     return data;
-//   } catch (error) {
-//     console.error("An error occurred while retrieving data from the API: ", error);
-//   }
-// }
+    return data;
+  } catch (error) {
+    console.error("An error occurred while retrieving data from the API: ", error);
+  }
+}
 
