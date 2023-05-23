@@ -4,22 +4,32 @@ import { View, Text, StyleSheet, Image, Linking, TouchableOpacity} from 'react-n
 import { useState, useEffect } from 'react';
 import { FetchDetailscreenData } from '../data/api';
 import MapView, { Marker } from 'react-native-maps';
+import base64 from 'react-native-base64';
+
 
  
 
 export default function Detailscreen({route}) {
     const { itemId } = route.params;
     const [data, setData] = useState(null);
+    const [coordinates, setCoordinates] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
       FetchDetailscreenData(route)
         .then((response) => {
           setData(response);
-          console.log(response);
-          
+          // console.log(response);
+          const geocodestr = base64.decode(response.fields["Geocode"]);
+          // console.log(geocodestr);
+          const geocode = JSON.parse(geocodestr)
+          setCoordinates(geocode);
+          // console.log(coordinates)
+          setIsLoading(false);
         })
         .catch((error) => {
           console.error("An error occurred while fetching data: ", error);
+          setIsLoading(false);
         });
     }, [itemId]);
 
@@ -27,16 +37,6 @@ export default function Detailscreen({route}) {
       Linking.openURL(data.fields["Magic Seaweed Link"])
     }
     
-    // function Decode(){
-    //   const geocode = "eyJpIjoiUGlwZWxpbmUsIE9haHUsIEhhd2FpaSIsIm8iOnsic3RhdHVzIjoiT0siLCJmb3JtYXR0ZWRBZGRyZXNzIjoiRWh1a2FpIEJlYWNoIFBhcmssIEhhbGVpd2EsIEhJIDk2NzEyLCBVbml0ZWQgU3RhdGVzIiwibGF0IjoyMS42NjUwNTYyLCJsbmciOi0xNTguMDUxMjA0Njk5OTk5OTd9LCJlIjoxNTM1MzA3MDE5OTE1fQ==";
-    //   const buffer = new Buffer(geocode, 'base64');
-    //   const decodedData = buffer.toString('utf-8');
-    //   const coordinates = JSON.parse(decodedData);
-
-    //   console.log(coordinates);
-    // }
-
-    // Decode()
     
     return (
          
@@ -51,25 +51,33 @@ export default function Detailscreen({route}) {
                                 source={{ uri: data.fields.Photos[0].url }}
                         />
                         <View style={styles.textdetail}>
-                             <Text data={data} style={styles.titlespot}>{data.fields.Destination}</Text>
-                             <Text style={styles.location}>{data.fields["Destination State/Country"]}</Text>
-                             <Text style={styles.description}>Surf Break : {data.fields["Surf Break"]}</Text>
-                             <Text style={styles.description}>Difficulty Level : {data.fields["Difficulty Level"]}/5</Text>
-                             <TouchableOpacity onPress={Link}>
-                                <Text style={styles.description}>More informations : Magic Seaweed</Text>
-                             </TouchableOpacity>
-                             <MapView style={styles.map}
-                                      initialRegion={{
-                                        latitude: 37.78825,
-                                        longitude: -122.4324,
-                                        latitudeDelta: 0.0922,
-                                        longitudeDelta: 0.0421,
+                            <Text data={data} style={styles.titlespot}>{data.fields.Destination}</Text>
+                            <Text style={styles.location}>{data.fields["Destination State/Country"]}</Text>
+                            <Text style={styles.description}>Surf Break : {data.fields["Surf Break"]}</Text>
+                            <Text style={styles.description}>Difficulty Level : {data.fields["Difficulty Level"]}/5</Text>
+                            <TouchableOpacity onPress={Link}>
+                              <Text style={styles.description}>More informations : Magic Seaweed</Text>
+                            </TouchableOpacity>
+                            {isLoading ? (
+                              
+                              <Text>Loading...</Text>
+                            ) : (
+                              <View>
+                              <MapView style={styles.map}
+                                        initialRegion={{
+                                        latitude: coordinates.o.lat,
+                                        longitude: coordinates.o.lng,
+                                        latitudeDelta: 0.5,
+                                        longitudeDelta: 0.01,
                                       }}>
-                              <Marker
-                                coordinate={{ latitude: 37.78825, longitude: -122.4324 }}
-                                title="Marker Title"
-                                description="Marker Description"/>
-                             </MapView> 
+                                <Marker
+                                  coordinate={{ latitude: coordinates.o.lat, longitude: coordinates.o.lng }}
+                                  title= {coordinates.i}
+                                  />
+                              </MapView>
+                              </View>
+                            )}
+                             
                         </View>
                     </View>
                 )}
