@@ -7,8 +7,6 @@ import MapView, { Marker } from 'react-native-maps';
 import base64 from 'react-native-base64';
 
 
- 
-
 export default function Detailscreen({route}) {
     const { itemId } = route.params;
     const [data, setData] = useState(null);
@@ -19,12 +17,12 @@ export default function Detailscreen({route}) {
       FetchDetailscreenData(route)
         .then((response) => {
           setData(response);
-          // console.log(response);
+          //console.log(response);
           const geocodestr = base64.decode(response.fields["Geocode"]);
           // console.log(geocodestr);
           const geocode = JSON.parse(geocodestr)
           setCoordinates(geocode);
-          // console.log(coordinates)
+          //console.log(coordinates)
           setIsLoading(false);
         })
         .catch((error) => {
@@ -42,7 +40,7 @@ export default function Detailscreen({route}) {
          
             <View>
                 <View style={styles.container}>
-                    <StatusBar style="auto" />
+                    <StatusBar backgroundColor='#FFBF66' />
                     <Text style={styles.titleapp}>Spotisurf</Text>
                 </View>
                 {data && (
@@ -67,8 +65,8 @@ export default function Detailscreen({route}) {
                                         initialRegion={{
                                         latitude: coordinates.o.lat,
                                         longitude: coordinates.o.lng,
-                                        latitudeDelta: 0.5,
-                                        longitudeDelta: 0.01,
+                                        latitudeDelta: 20,
+                                        longitudeDelta: 20,
                                       }}>
                                 <Marker
                                   coordinate={{ latitude: coordinates.o.lat, longitude: coordinates.o.lng }}
@@ -81,8 +79,9 @@ export default function Detailscreen({route}) {
                         </View>
                     </View>
                 )}
+                
             </View>
-        
+                  
     );
 }
 
@@ -90,15 +89,16 @@ export default function Detailscreen({route}) {
 
 const styles = StyleSheet.create({
     container: {
-      alignItems: 'center',
-      paddingVertical: 20,
+      paddingVertical: 30,
       backgroundColor:'#00353F',
     
     },
     titleapp: {
+      textAlign: 'center',
+      marginTop: 15,
       fontWeight: 'bold',
-      fontSize: 30,
-      color:'#D46F4D'
+      fontSize:30,
+      color:'#D46F4D',
     },
     picture: {
         width: 400,
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
  
     map: {
       width: 370,
-      height: 250,
+      height: 297,
     },    
     
 })

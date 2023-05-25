@@ -23,23 +23,21 @@ export default function Homescreen({navigation}){
     return(
         <View>
             <View style={styles.container}>
-                <StatusBar style="auto" />
+                <StatusBar backgroundColor='#FFBF66' />
                 <Text style={styles.titleapp}>Spotisurf</Text>
             </View>
             <View style={styles.favorite}>
-                <Text style={styles.subtitleapp}>Explore the surfs spots</Text>
+                <Text style={styles.subtitleapp}>Explore the surf spots</Text>
             </View>
-            <SafeAreaView style={{backgroundColor:'#FFFA99'}} >
-              
+            <SafeAreaView style={styles.spotlist} >             
                 {data && (
                   <FlatList
-                    style={{marginBottom:300}}
+                    numColumns={2}                
                     data={data.records}
                     keyExtractor={(item) => item.id}
-                    renderItem={({item}) => <Item title={item.fields.Destination} subtitle={item.fields["Destination State/Country"]} picture={item.fields.Photos[0].url} onPress={() => navigation.navigate('Detail', { itemId: item.id })}/> }
+                    renderItem={({item}) => <Item  title={item.fields.Destination} subtitle={item.fields["Destination State/Country"]} picture={item.fields.Photos[0].url} onPress={() => navigation.navigate('Detail', { itemId: item.id })}/>}
                   />
                 )}
-              
             </SafeAreaView>    
         </View>
     )
@@ -47,25 +45,25 @@ export default function Homescreen({navigation}){
 
 const Item = ({title, subtitle, picture, onPress}) => (
     <Pressable onPress={onPress}>
-    <View style={styles.spotlist}>
      <Text style={styles.titlespot}>{title}</Text>
-     <Text style={styles.titlespot}>{subtitle}</Text>
+     <Text numberOfLines={1} ellipsizeMode="tail" style={styles.subtitlespot}>{subtitle}</Text>
      <Image source={{uri:picture}} style={styles.picture} />
-    </View>
     </Pressable>
-  );
+);
 
 const styles = StyleSheet.create({
     container: {
-      alignItems: 'center',
-      paddingVertical: 20,
+      paddingVertical: 30,
       backgroundColor:'#00353F',
     
     },
     titleapp: {
+      textAlign: 'center',
+      marginTop: 15,
       fontWeight: 'bold',
       fontSize:30,
-      color:'#D46F4D'
+      color:'#D46F4D',
+      
     },
     subtitleapp: {
       fontWeight:'bold',
@@ -78,28 +76,42 @@ const styles = StyleSheet.create({
       backgroundColor:'#FFBF66',
       alignItems: 'center',
       paddingVertical: 20,
-       
-
     },
-    spotlist:{
-        backgroundColor:'#FFBF66',
-        alignItems: 'center',
-        paddingVertical: 20,
-        
+    spotlist: {
+      backgroundColor:'#FFBF66',
+      marginBottom:300,
+      alignItems: 'center'
       
     },
-    titlespot:{
+    item: {
+      display: 'flex',
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      
+    },
+    titlespot: {
       fontStyle:'italic',
       fontWeight:900,
       fontSize: 15,   
       color:'#00353F',
-      paddingBottom: 4
+      paddingBottom: 4,
+      marginHorizontal: 10
+    },
+    subtitlespot: {
+      fontStyle:'italic',
+      fontWeight:900,
+      fontSize: 12,   
+      color:'#00353F',
+      paddingBottom: 4,
+      marginHorizontal: 10,
+      width: 150
     },
     picture:{
-      width:150,
-      height:150,
-      borderRadius:75,
-  
+      width:160,
+      height:200,
+      borderRadius:7,
+      marginBottom: 20,
+      marginHorizontal: 10
     }
       
   
