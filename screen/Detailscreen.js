@@ -1,11 +1,11 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, StyleSheet, Image, Linking, TouchableOpacity} from 'react-native';
+import { View, Text, Image, Linking, TouchableOpacity} from 'react-native';
 import { useState, useEffect } from 'react';
 import { FetchDetailscreenData } from '../data/api';
 import MapView, { Marker } from 'react-native-maps';
 import base64 from 'react-native-base64';
-
+import styles from '../styles/Detailscreen.styles'
 
 export default function Detailscreen({route}) {
     const { itemId } = route.params;
@@ -62,7 +62,7 @@ export default function Detailscreen({route}) {
                             ) : (
                               <View>
                               <MapView style={styles.map}
-                                        initialRegion={{
+                                        region={{
                                         latitude: coordinates.o.lat,
                                         longitude: coordinates.o.lng,
                                         latitudeDelta: 20,
@@ -87,53 +87,3 @@ export default function Detailscreen({route}) {
 
 
 
-const styles = StyleSheet.create({
-    container: {
-      paddingVertical: 30,
-      backgroundColor:'#00353F',
-    
-    },
-    titleapp: {
-      textAlign: 'center',
-      marginTop: 15,
-      fontWeight: 'bold',
-      fontSize:30,
-      color:'#D46F4D',
-    },
-    picture: {
-        width: 400,
-        height: 200
-    },
-    titlespot:{
-        fontStyle:'italic',
-        fontWeight: 900,
-        fontSize: 30,
-        paddingTop: 20,
-        color:'#00353F',
-        paddingBottom: 4
-    },
-    location: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color:'#00353F',
-        fontStyle:'italic',
-    },
-    description: {
-        fontSize: 15,
-        fontWeight: 'bold',
-        color:'#00353F',
-        fontStyle:'italic',
-        paddingVertical: 5,
-        
-    },
-    textdetail: {
-        paddingHorizontal: 10,
-        backgroundColor:'#FFBF66'
-    },
- 
-    map: {
-      width: 370,
-      height: 297,
-    },    
-    
-})
