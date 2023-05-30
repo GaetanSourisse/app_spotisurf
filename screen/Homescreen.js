@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, SafeAreaView, Image, Pressable} from 'react-native';
+import { Text, View, FlatList, SafeAreaView, Image, Pressable} from 'react-native';
 import { FetchHomescreenData } from '../data/api';
 import styles from '../styles/Homescreen.styles';
 
