@@ -21,6 +21,7 @@ export default function Detailscreen({route}) {
           const geocodestr = base64.decode(response.fields["Geocode"]);
           // console.log(geocodestr);
           const geocode = JSON.parse(geocodestr)
+          console.log(geocode)
           setCoordinates(geocode);
           //console.log(coordinates)
           setIsLoading(false);
@@ -38,7 +39,7 @@ export default function Detailscreen({route}) {
     
     return (
          
-            <View>
+            <View >
                 <View style={styles.container}>
                     <StatusBar backgroundColor='#FFBF66' />
                     <Text style={styles.titleapp}>Spotisurf</Text>
@@ -60,19 +61,20 @@ export default function Detailscreen({route}) {
                               
                               <Text>Loading...</Text>
                             ) : (
-                              <View>
-                              <MapView style={styles.map}
-                                        region={{
-                                        latitude: coordinates.o.lat,
-                                        longitude: coordinates.o.lng,
-                                        latitudeDelta: 20,
-                                        longitudeDelta: 20,
-                                      }}>
-                                <Marker
-                                  coordinate={{ latitude: coordinates.o.lat, longitude: coordinates.o.lng }}
-                                  title= {coordinates.i}
-                                  />
-                              </MapView>
+                              <View style={styles.mapborder}>
+                                <MapView style={styles.map}
+                                          region={{
+                                          latitude: coordinates.o.lat,
+                                          longitude: coordinates.o.lng,
+                                          latitudeDelta: 10,
+                                          longitudeDelta: 10,
+                                          }}
+                                >
+                                  <Marker
+                                    coordinate={{ latitude: coordinates.o.lat, longitude: coordinates.o.lng }}
+                                    title= {coordinates.i}
+                                    />
+                                </MapView>
                               </View>
                             )}
                              

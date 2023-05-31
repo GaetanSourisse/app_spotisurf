@@ -43,10 +43,15 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         backgroundColor:'#FFBF66'
     },
- 
+    mapborder: {
+      overflow: 'hidden',
+      borderRadius: 20,
+      height: 250,
+      width: 370
+    },
     map: {
       width: 370,
-      height: 297,
+      height: 250,
     },    
     
 });

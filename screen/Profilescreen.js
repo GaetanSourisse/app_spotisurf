@@ -1,23 +1,21 @@
 import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { View, Text, Image} from 'react-native';
-import styles from '../styles/Homescreen.styles';
-import { useState, useCallback } from 'react';
+import styles from '../styles/Profilescreen.styles';
+import { useState } from 'react';
 import {useForm, Controller} from 'react-hook-form';
 import DropDownPicker from "react-native-dropdown-picker";
 
 export default function Profilescreen() {
-    const [genderOpen, setGenderOpen] = useState(false);
-    const [genderValue, setGenderValue] = useState(null);
-    const [gender, setGender] = useState([
+
+    //states for the dropdown menu of sepciality
+    const [specialityOpen, setSpecialityOpen] = useState(false);
+    const [specialityValue, setSpecialityValue] = useState(null);
+    const [speciality, setSpeciality] = useState([
         { label: "Surf", value: "surf" },
         { label: "Bodyboard", value: "bodyboard" },
         { label: "Longboard", value: "longboard" },
     ]);
-
-    const onGenderOpen = useCallback(() => {
-        setCompanyOpen(false);
-      }, []);
 
     const { handleSubmit, control } = useForm();
     const onSubmit = (data) => {
@@ -25,40 +23,40 @@ export default function Profilescreen() {
     };
 
     return (
-        <View>
+        <View backgroundColor='#FFBF66' height='100%'>
             <View style={styles.container}>
                     <StatusBar backgroundColor='#FFBF66' />
                     <Text style={styles.titleapp}>Spotisurf</Text>
             </View>
-            <View>
+            <View style={styles.framepicture}>
                 <Image  style={styles.picture}
                         source={require('../assets/la-reunion.png')}
                 />
-                <Text>Brice de Nice</Text>
-                <Controller
-                    name="speciality"
-                    //defaultValue=""
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                        <View style={styles.dropdownGender}>
-                            <DropDownPicker
-                            style={styles.dropdown}
-                            open={genderOpen}
-                            value={genderValue} //genderValue
-                            items={gender}
-                            setOpen={setGenderOpen}
-                            setValue={setGenderValue}
-                            setItems={setGender}
-                            placeholder="Select your speciality"
-                            placeholderStyle={styles.placeholderStyles}
-                            onOpen={onGenderOpen}
-                            onChangeValue={onChange}
-                            zIndex={3000}
-                            zIndexInverse={1000}
-                            />
-                        </View>
-                    )}
-                />
+            </View>
+            <View style={styles.card}>
+                    <Text style={styles.name}>Brice de Nice</Text>
+                    <Controller
+                        name="speciality"
+                        control={control}
+                        render={({ field: { onChange } }) => (
+                            <View style={styles.dropdown}>
+                                <Text style={styles.speciality}>Speciality :</Text>
+                                <DropDownPicker
+                                open={specialityOpen}
+                                value={specialityValue}
+                                items={speciality}
+                                setOpen={setSpecialityOpen}
+                                setValue={setSpecialityValue}
+                                setItems={setSpeciality}
+                                placeholder="Select your speciality"
+                                placeholderStyle={styles.placeholderStyles}
+                                onChangeValue={onChange}
+                                zIndex={3000}
+                                zIndexInverse={1000}
+                                />
+                            </View>
+                        )}
+                    />
                 
             </View>
         </View>

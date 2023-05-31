@@ -14,10 +14,37 @@ const styles = StyleSheet.create({
       color:'#D46F4D',
       
     },
-    picture: {
-        width: 400,
-        height: 200
+    // card: {
+    //   display: 'flex',
+     
+    // },
+    framepicture: {
+      alignItems:'center'
     },
+    picture:{
+      width:170,
+      height:170,
+      borderRadius: 85,
+      marginTop: 20,
+    },
+    name: {
+      marginLeft: 10,
+      fontWeight:'bold',
+      fontSize:20,
+      color:'#00353F',
+      marginTop: 20
+    },
+    speciality: {
+      
+      fontWeight:'bold',
+      fontSize:20,
+      color:'#00353F',
+      marginTop: 20
+    },
+    dropdown: {
+      marginLeft: 10,
+      width: 300,
+    }
 });
 
 export default styles
