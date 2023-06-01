@@ -14,10 +14,6 @@ const styles = StyleSheet.create({
       color:'#D46F4D',
       
     },
-    // card: {
-    //   display: 'flex',
-     
-    // },
     framepicture: {
       alignItems:'center'
     },
@@ -28,22 +24,52 @@ const styles = StyleSheet.create({
       marginTop: 20,
     },
     name: {
+      alignContent:'center',
       marginLeft: 10,
       fontWeight:'bold',
-      fontSize:20,
+      fontSize:25,
       color:'#00353F',
       marginTop: 20
     },
     speciality: {
-      
+      position:'relative',
+      zIndex:3,
       fontWeight:'bold',
       fontSize:20,
       color:'#00353F',
       marginTop: 20
     },
     dropdown: {
+      position:'relative',
+      zIndex:5,
       marginLeft: 10,
       width: 300,
+    },
+    favorite: {
+      position:'relative',
+      zIndex:3,
+      fontWeight:'bold',
+      fontSize:20,
+      color:'#00353F',
+      marginTop: 20,
+      marginLeft: 10
+    },
+    addspot: {
+      marginTop: 160,
+      alignItems:'center'
+    },
+    button: {
+      width: 150,
+      height: 40,
+      backgroundColor: '#00353F',
+      alignItems:'center',
+      justifyContent:'center',
+      borderRadius: 10
+      
+    },
+    textadd: {
+      color: '#D46F4D',
+      fontWeight: 'bold'
     }
 });
 

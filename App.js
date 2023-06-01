@@ -11,26 +11,19 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 const Tab = createBottomTabNavigator();
 
 
-const Stack = createNativeStackNavigator();
-
-
 export default function App() {
 
     return (
      
         <NavigationContainer>
-          {/* <Stack.Navigator>
-            <Stack.Screen name="Home" component={Homescreen} options={{ headerShown: false }}/>
-            <Stack.Screen name="Detail" component={Detailscreen} options={{ headerShown: false }}/>
-          </Stack.Navigator> */}
                 <Tab.Navigator
                   initialRouteName="Home"
                   screenOptions={{
-                    tabBarActiveTintColor: '#e91e63',
+                    tabBarActiveTintColor: '#D46F4D',
+                    tabBarActiveBackgroundColor: '#00353F'
                   }}
                 >
                   <Tab.Screen
-                    
                     name="Home"
                     component={Homescreen}
                     options={{

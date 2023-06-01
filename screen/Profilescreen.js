@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, Image} from 'react-native';
+import { View, Text, Image, Button, Alert, TouchableOpacity } from 'react-native';
 import styles from '../styles/Profilescreen.styles';
 import { useState } from 'react';
-import {useForm, Controller} from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import DropDownPicker from "react-native-dropdown-picker";
 
 export default function Profilescreen() {
@@ -18,11 +18,8 @@ export default function Profilescreen() {
     ]);
 
     const { handleSubmit, control } = useForm();
-    const onSubmit = (data) => {
-        console.log(data, "data");
-    };
-
-    return (
+  
+      return (
         <View backgroundColor='#FFBF66' height='100%'>
             <View style={styles.container}>
                     <StatusBar backgroundColor='#FFBF66' />
@@ -32,9 +29,10 @@ export default function Profilescreen() {
                 <Image  style={styles.picture}
                         source={require('../assets/la-reunion.png')}
                 />
+                <Text style={styles.name}>Brice de Nice</Text>
             </View>
             <View style={styles.card}>
-                    <Text style={styles.name}>Brice de Nice</Text>
+                    
                     <Controller
                         name="speciality"
                         control={control}
@@ -49,15 +47,32 @@ export default function Profilescreen() {
                                 setValue={setSpecialityValue}
                                 setItems={setSpeciality}
                                 placeholder="Select your speciality"
-                                placeholderStyle={styles.placeholderStyles}
                                 onChangeValue={onChange}
-                                zIndex={3000}
-                                zIndexInverse={1000}
+                                style={{
+                                    backgroundColor: "#00353F"
+                                  }}
+                                textStyle={{
+                                    fontWeight: 'bold',
+                                    fontSize: 15,
+                                    color: '#D46F4D'
+                                  }}
+                                labelStyle={{
+                                    fontWeight: "bold"
+                                  }}
                                 />
                             </View>
                         )}
                     />
-                
+                    <Text style={styles.favorite}>Favorite spots :</Text>
+                    <View style={styles.addspot}>
+                        <TouchableOpacity
+                            onPress={() => Alert.alert('Spot recorded')}
+                            style={styles.button}
+                        >
+                            <Text style={styles.textadd}>Add a spot</Text>
+                        </TouchableOpacity>
+                    </View>
+                                   
             </View>
         </View>
     )
