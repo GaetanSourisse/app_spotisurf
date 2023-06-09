@@ -4,6 +4,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Homescreen from "./screen/Homescreen";
 import Detailscreen from "./screen/Detailscreen";
 import Profilescreen from "./screen/Profilescreen";
+import SignInscreen from "./screen/SignInscreen";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -20,8 +21,8 @@ export default function App() {
                   initialRouteName="Home"
                   screenOptions={{
                     tabBarActiveTintColor: '#D46F4D',
-                    tabBarActiveBackgroundColor: '#00353F'
-                  }}
+                    tabBarActiveBackgroundColor: '#00353F',
+                  }}  
                 >
                   <Tab.Screen
                     name="Home"
@@ -49,6 +50,17 @@ export default function App() {
                     options={{
                       headerShown: false,
                       tabBarLabel: 'Profile',
+                      tabBarIcon: ({ color, size }) => (
+                        <MaterialCommunityIcons name="account" color={color} size={size} />
+                      ),
+                    }}
+                  />
+                  <Tab.Screen
+                    name="Sign In"
+                    component={SignInscreen}
+                    options={{
+                      headerShown: false,
+                      tabBarLabel: 'Sign in',
                       tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons name="account" color={color} size={size} />
                       ),
